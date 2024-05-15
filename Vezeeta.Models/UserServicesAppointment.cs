@@ -7,29 +7,21 @@ using System.Threading.Tasks;
 
 namespace Vezeeta.Models
 {
-    public enum UserAppointmentStatus
-    {
-        Scheduled,
-        Confirmed,
-        Completed,
-        Canceled,
-    }
-    public class UserAppointment :BaseEntity
+    public class UserServicesAppointment : BaseEntity
     {
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey("Doctor")]
-        public int DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
-
         [ForeignKey("Appointment")]
         public int AppointmentId { get; set; }
         public Appointment Appointment { get; set; }
+
+        [ForeignKey("Services")]
+        public int ServiceId { get; set; }
+        public Services Services { get; set; }
+
         public DateTime? UserChoosedTime { get; set; }
         public UserAppointmentStatus Status { get; set; }
-        public ICollection<Visits> Visits { get; set; }
-
     }
 }

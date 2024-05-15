@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vezeeta.Models", "Vezeeta.Models\Vezeeta.Models.csproj", "{F1BE648E-1384-475E-B181-0A2D23FD1D66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vezeeta.Models", "Vezeeta.Models\Vezeeta.Models.csproj", "{F1BE648E-1384-475E-B181-0A2D23FD1D66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vezeeta.Infrastucture", "Vezeeta.Infrastucture\Vezeeta.Infrastucture.csproj", "{41B440B8-FB82-4E8A-8636-63B0F11504A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vezeeta.Infrastucture", "Vezeeta.Infrastucture\Vezeeta.Infrastucture.csproj", "{41B440B8-FB82-4E8A-8636-63B0F11504A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vezeeta.Application", "Vezeeta.Application\Vezeeta.Application.csproj", "{84455CC9-15FA-4EF7-8FDB-117AC8462800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vezeeta.Application", "Vezeeta.Application\Vezeeta.Application.csproj", "{84455CC9-15FA-4EF7-8FDB-117AC8462800}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vezeeta.Dtos", "Vezeeta.Dtos\Vezeeta.Dtos.csproj", "{589E6F2E-6E48-45C0-B154-7C9F882C96C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vezeeta.Dtos", "Vezeeta.Dtos\Vezeeta.Dtos.csproj", "{589E6F2E-6E48-45C0-B154-7C9F882C96C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vezeeta.Presentation", "Vezeeta.Presentation\Vezeeta.Presentation.csproj", "{DB550B84-5BD0-4494-8CE6-1D880FE7D59B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vezeeta.Presentation", "Vezeeta.Presentation\Vezeeta.Presentation.csproj", "{DB550B84-5BD0-4494-8CE6-1D880FE7D59B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vezeeta.Context", "Vezeeta.Context\Vezeeta.Context.csproj", "{F9AEEF40-8D70-40DF-AA95-09439D90AB8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vezeeta.Context", "Vezeeta.Context\Vezeeta.Context.csproj", "{F9AEEF40-8D70-40DF-AA95-09439D90AB8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

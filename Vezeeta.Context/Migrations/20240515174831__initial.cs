@@ -286,11 +286,8 @@ namespace Vezeeta.Context.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppointmentId = table.Column<int>(type: "int", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
-                    UserChoosedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -300,12 +297,6 @@ namespace Vezeeta.Context.Migrations
                         name: "FK_ServicesAppointments_Appointments_AppointmentId",
                         column: x => x.AppointmentId,
                         principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ServicesAppointments_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -333,6 +324,96 @@ namespace Vezeeta.Context.Migrations
                         name: "FK_ServicesImages_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserServicesAppointment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
+                    UserChoosedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserServicesAppointment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserServicesAppointment_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserServicesAppointment_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserServicesAppointment_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorAppointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorAppointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoctorAppointments_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoctorAppointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorTeleAppointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorTeleAppointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DoctorTeleAppointments_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoctorTeleAppointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -395,26 +476,6 @@ namespace Vezeeta.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TelehealthConsultations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TelehealthConsultations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TelehealthConsultations_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserAppointments",
                 columns: table => new
                 {
@@ -444,6 +505,42 @@ namespace Vezeeta.Context.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserAppointments_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTeleAppointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
+                    UserChoosedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTeleAppointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserTeleAppointments_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTeleAppointments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTeleAppointments_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
@@ -496,41 +593,6 @@ namespace Vezeeta.Context.Migrations
                         name: "FK_Subspecialties_Specialties_SpecialtyId",
                         column: x => x.SpecialtyId,
                         principalTable: "Specialties",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeleAppointment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AppointmentId = table.Column<int>(type: "int", nullable: false),
-                    TelehealthConsultationId = table.Column<int>(type: "int", nullable: false),
-                    UserChoosedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeleAppointment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TeleAppointment_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeleAppointment_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeleAppointment_TelehealthConsultations_TelehealthConsultationId",
-                        column: x => x.TelehealthConsultationId,
-                        principalTable: "TelehealthConsultations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -644,9 +706,29 @@ namespace Vezeeta.Context.Migrations
                 column: "CountriesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DoctorAppointments_AppointmentId",
+                table: "DoctorAppointments",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorAppointments_DoctorId",
+                table: "DoctorAppointments",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_CountryId",
                 table: "Doctors",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorTeleAppointments_AppointmentId",
+                table: "DoctorTeleAppointments",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorTeleAppointments_DoctorId",
+                table: "DoctorTeleAppointments",
+                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_UserId",
@@ -679,11 +761,6 @@ namespace Vezeeta.Context.Migrations
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServicesAppointments_UserId",
-                table: "ServicesAppointments",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ServicesImages_ServiceId",
                 table: "ServicesImages",
                 column: "ServiceId");
@@ -704,26 +781,6 @@ namespace Vezeeta.Context.Migrations
                 column: "SpecialtyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeleAppointment_AppointmentId",
-                table: "TeleAppointment",
-                column: "AppointmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeleAppointment_TelehealthConsultationId",
-                table: "TeleAppointment",
-                column: "TelehealthConsultationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeleAppointment_UserId",
-                table: "TeleAppointment",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TelehealthConsultations_DoctorId",
-                table: "TelehealthConsultations",
-                column: "DoctorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserAppointments_AppointmentId",
                 table: "UserAppointments",
                 column: "AppointmentId");
@@ -736,6 +793,36 @@ namespace Vezeeta.Context.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserAppointments_UserId",
                 table: "UserAppointments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserServicesAppointment_AppointmentId",
+                table: "UserServicesAppointment",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserServicesAppointment_ServiceId",
+                table: "UserServicesAppointment",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserServicesAppointment_UserId",
+                table: "UserServicesAppointment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTeleAppointments_AppointmentId",
+                table: "UserTeleAppointments",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTeleAppointments_DoctorId",
+                table: "UserTeleAppointments",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTeleAppointments_UserId",
+                table: "UserTeleAppointments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -784,6 +871,12 @@ namespace Vezeeta.Context.Migrations
                 name: "CountriesImages");
 
             migrationBuilder.DropTable(
+                name: "DoctorAppointments");
+
+            migrationBuilder.DropTable(
+                name: "DoctorTeleAppointments");
+
+            migrationBuilder.DropTable(
                 name: "Payments");
 
             migrationBuilder.DropTable(
@@ -799,7 +892,10 @@ namespace Vezeeta.Context.Migrations
                 name: "Subspecialties");
 
             migrationBuilder.DropTable(
-                name: "TeleAppointment");
+                name: "UserServicesAppointment");
+
+            migrationBuilder.DropTable(
+                name: "UserTeleAppointments");
 
             migrationBuilder.DropTable(
                 name: "Visits");
@@ -811,13 +907,10 @@ namespace Vezeeta.Context.Migrations
                 name: "WorkingPlaces");
 
             migrationBuilder.DropTable(
-                name: "Services");
-
-            migrationBuilder.DropTable(
                 name: "Specialties");
 
             migrationBuilder.DropTable(
-                name: "TelehealthConsultations");
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "UserAppointments");

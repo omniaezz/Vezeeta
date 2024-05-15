@@ -12,7 +12,7 @@ using Vezeeta.Context;
 namespace Vezeeta.Context.Migrations
 {
     [DbContext(typeof(VezeetaContext))]
-    [Migration("20240514140447__initial")]
+    [Migration("20240515174831__initial")]
     partial class _initial
     {
         /// <inheritdoc />
@@ -371,6 +371,58 @@ namespace Vezeeta.Context.Migrations
                     b.ToTable("Doctors");
                 });
 
+            modelBuilder.Entity("Vezeeta.Models.DoctorAppointments", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorAppointments");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.DoctorTeleAppointments", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorTeleAppointments");
+                });
+
             modelBuilder.Entity("Vezeeta.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -504,23 +556,11 @@ namespace Vezeeta.Context.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UserChoosedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppointmentId");
 
                     b.HasIndex("ServiceId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ServicesAppointments");
                 });
@@ -605,65 +645,6 @@ namespace Vezeeta.Context.Migrations
                     b.ToTable("Subspecialties");
                 });
 
-            modelBuilder.Entity("Vezeeta.Models.TeleAppointment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TelehealthConsultationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UserChoosedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.HasIndex("TelehealthConsultationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TeleAppointment");
-                });
-
-            modelBuilder.Entity("Vezeeta.Models.TelehealthConsultation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("TelehealthConsultations");
-                });
-
             modelBuilder.Entity("Vezeeta.Models.UserAppointment", b =>
                 {
                     b.Property<int>("Id")
@@ -700,6 +681,82 @@ namespace Vezeeta.Context.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserAppointments");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.UserServicesAppointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UserChoosedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserServicesAppointment");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.UserTeleAppointments", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UserChoosedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTeleAppointments");
                 });
 
             modelBuilder.Entity("Vezeeta.Models.Visits", b =>
@@ -871,6 +928,44 @@ namespace Vezeeta.Context.Migrations
                     b.Navigation("Countries");
                 });
 
+            modelBuilder.Entity("Vezeeta.Models.DoctorAppointments", b =>
+                {
+                    b.HasOne("Vezeeta.Models.Appointment", "Appointment")
+                        .WithMany("DoctorAppointments")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.Doctor", "Doctor")
+                        .WithMany("DoctorAppointments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.DoctorTeleAppointments", b =>
+                {
+                    b.HasOne("Vezeeta.Models.Appointment", "Appointment")
+                        .WithMany("DoctorTeleAppointments")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.Doctor", "Doctor")
+                        .WithMany("DoctorTeleAppointments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("Vezeeta.Models.Payment", b =>
                 {
                     b.HasOne("Vezeeta.Models.ApplicationUser", "User")
@@ -923,14 +1018,6 @@ namespace Vezeeta.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vezeeta.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ServicesAppointments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
                     b.Navigation("Appointment");
 
                     b.Navigation("Services");
@@ -967,48 +1054,10 @@ namespace Vezeeta.Context.Migrations
                     b.HasOne("Vezeeta.Models.Specialty", "Specialty")
                         .WithMany("Subspecialties")
                         .HasForeignKey("SpecialtyId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Specialty");
-                });
-
-            modelBuilder.Entity("Vezeeta.Models.TeleAppointment", b =>
-                {
-                    b.HasOne("Vezeeta.Models.Appointment", "Appointment")
-                        .WithMany("TeleAppointments")
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vezeeta.Models.TelehealthConsultation", "TelehealthConsultation")
-                        .WithMany("TeleAppointments")
-                        .HasForeignKey("TelehealthConsultationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vezeeta.Models.ApplicationUser", "User")
-                        .WithMany("TeleAppointments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("TelehealthConsultation");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Vezeeta.Models.TelehealthConsultation", b =>
-                {
-                    b.HasOne("Vezeeta.Models.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("Vezeeta.Models.UserAppointment", b =>
@@ -1027,6 +1076,60 @@ namespace Vezeeta.Context.Migrations
 
                     b.HasOne("Vezeeta.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("UserAppointments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.UserServicesAppointment", b =>
+                {
+                    b.HasOne("Vezeeta.Models.Appointment", "Appointment")
+                        .WithMany("UserServicesAppointments")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.Services", "Services")
+                        .WithMany("UserServicesAppointments")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserServicesAppointments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.UserTeleAppointments", b =>
+                {
+                    b.HasOne("Vezeeta.Models.Appointment", "Appointment")
+                        .WithMany("UserTeleAppointments")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.Doctor", "Doctor")
+                        .WithMany("UserTeleAppointments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserTeleAppointments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1078,20 +1181,26 @@ namespace Vezeeta.Context.Migrations
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("ServicesAppointments");
-
-                    b.Navigation("TeleAppointments");
-
                     b.Navigation("UserAppointments");
+
+                    b.Navigation("UserServicesAppointments");
+
+                    b.Navigation("UserTeleAppointments");
                 });
 
             modelBuilder.Entity("Vezeeta.Models.Appointment", b =>
                 {
+                    b.Navigation("DoctorAppointments");
+
+                    b.Navigation("DoctorTeleAppointments");
+
                     b.Navigation("ServicesAppointments");
 
-                    b.Navigation("TeleAppointments");
-
                     b.Navigation("UserAppointments");
+
+                    b.Navigation("UserServicesAppointments");
+
+                    b.Navigation("UserTeleAppointments");
                 });
 
             modelBuilder.Entity("Vezeeta.Models.Countries", b =>
@@ -1103,11 +1212,17 @@ namespace Vezeeta.Context.Migrations
 
             modelBuilder.Entity("Vezeeta.Models.Doctor", b =>
                 {
+                    b.Navigation("DoctorAppointments");
+
+                    b.Navigation("DoctorTeleAppointments");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("Subspecialties");
 
                     b.Navigation("UserAppointments");
+
+                    b.Navigation("UserTeleAppointments");
 
                     b.Navigation("Visits");
 
@@ -1121,16 +1236,13 @@ namespace Vezeeta.Context.Migrations
                     b.Navigation("ServicesAppointments");
 
                     b.Navigation("ServicesImages");
+
+                    b.Navigation("UserServicesAppointments");
                 });
 
             modelBuilder.Entity("Vezeeta.Models.Specialty", b =>
                 {
                     b.Navigation("Subspecialties");
-                });
-
-            modelBuilder.Entity("Vezeeta.Models.TelehealthConsultation", b =>
-                {
-                    b.Navigation("TeleAppointments");
                 });
 
             modelBuilder.Entity("Vezeeta.Models.UserAppointment", b =>

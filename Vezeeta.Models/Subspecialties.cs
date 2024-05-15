@@ -10,7 +10,6 @@ namespace Vezeeta.Models
     public class Subspecialties : BaseEntity
     {
         [ForeignKey("Specialty")]
-        [InverseProperty("Subspecialties")]
         public int SpecialtyId { get; set; }
         public Specialty Specialty { get; set; }
 

@@ -18,6 +18,7 @@ namespace Vezeeta.Models
         public string ServicePlaceImage { get; set; }
         public ICollection<ServicesImages> ServicesImages { get; set; }
         public ICollection<Reviews> Reviews { get; set; }
+        public ICollection<UserServicesAppointment> UserServicesAppointments { get; set; }
         public ICollection<ServicesAppointment> ServicesAppointments { get; set; }
     }
 }

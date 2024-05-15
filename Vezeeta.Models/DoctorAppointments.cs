@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Vezeeta.Models
 {
-    public class ServicesAppointment : BaseEntity
+    public class DoctorAppointments : BaseEntity
     {
-        [ForeignKey("Services")]
-        public int ServiceId { get; set; }
-        public Services Services { get; set; }
+        [ForeignKey("Doctor")]
+        public int DoctorId { get; set; }
+        public Doctor Doctor { get; set; }
 
         [ForeignKey("Appointment")]
         public int AppointmentId { get; set; }
-        public Appointment Appointment { get; set; }
+        public Appointment Appointment { get; set; }///on site 
     }
 }

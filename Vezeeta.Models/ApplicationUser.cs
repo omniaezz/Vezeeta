@@ -13,9 +13,9 @@ namespace Vezeeta.Models
         public string Password { get; set; }
         public DateTime BirthDate { get; set; }
         public ICollection<Reviews> Reviews { get; set; }
-        public ICollection<UserAppointment> UserAppointments { get; set; }
         public ICollection<Payment> Payments { get; set; }
-        public ICollection<ServicesAppointment> ServicesAppointments { get; set; }
-        public ICollection<TeleAppointment> TeleAppointments { get; set; }
+        public ICollection<UserServicesAppointment> UserServicesAppointments { get; set; }
+        public ICollection<UserAppointment> UserAppointments { get; set; }
+        public ICollection<UserTeleAppointments> UserTeleAppointments { get; set; }
     }
 }

@@ -7,14 +7,7 @@ using System.Threading.Tasks;
 
 namespace Vezeeta.Models
 {
-    public enum UserAppointmentStatus
-    {
-        Scheduled,
-        Confirmed,
-        Completed,
-        Canceled,
-    }
-    public class UserAppointment :BaseEntity
+    public class UserTeleAppointments : BaseEntity
     {
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
@@ -29,7 +22,5 @@ namespace Vezeeta.Models
         public Appointment Appointment { get; set; }
         public DateTime? UserChoosedTime { get; set; }
         public UserAppointmentStatus Status { get; set; }
-        public ICollection<Visits> Visits { get; set; }
-
     }
 }
