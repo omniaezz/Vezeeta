@@ -33,6 +33,35 @@ namespace Vezeeta.Context
 
         public VezeetaContext(DbContextOptions options) : base(options) { }
 
-       
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Doctor>()
+                .HasOne(d => d.Specialty)
+                .WithMany(s => s.Doctors)
+                .HasForeignKey(d => d.SpecialtyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Subspecialties>()
+                .HasOne(ss => ss.Specialty)
+                .WithMany(s => s.Subspecialties)
+                .HasForeignKey(ss => ss.SpecialtyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DoctorSubSpecialties>()
+                .HasOne(dss => dss.Doctor)
+                .WithMany(d => d.DoctorSubSpecialties)
+                .HasForeignKey(dss => dss.DoctorId)
+                .OnDelete(DeleteBehavior.NoAction); 
+
+            modelBuilder.Entity<DoctorSubSpecialties>()
+                .HasOne(dss => dss.Subspecialties)
+                .WithMany(d => d.DoctorSubSpecialties)
+                .HasForeignKey(dss => dss.SubSpecialtiesId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+        }
+
     }
 }

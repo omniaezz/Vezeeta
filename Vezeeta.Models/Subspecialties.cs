@@ -9,10 +9,11 @@ namespace Vezeeta.Models
 {
     public class Subspecialties : BaseEntity
     {
+        public string Name { get; set; }
+
         [ForeignKey("Specialty")]
         public int SpecialtyId { get; set; }
         public Specialty Specialty { get; set; }
-
-        public string Name { get; set; }
+        public ICollection<DoctorSubSpecialties> DoctorSubSpecialties { get; set; }
     }
 }

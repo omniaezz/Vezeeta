@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Vezeeta.Context.Migrations
 {
     /// <inheritdoc />
-    public partial class _initial : Migration
+    public partial class _init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -100,6 +100,20 @@ namespace Vezeeta.Context.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specialties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SpecialtyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specialties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,33 +268,6 @@ namespace Vezeeta.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AboutDoctor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Fees = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    WaitingTime = table.Column<int>(type: "int", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Doctors_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServicesAppointments",
                 columns: table => new
                 {
@@ -362,6 +349,61 @@ namespace Vezeeta.Context.Migrations
                         principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AboutDoctor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fees = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    WaitingTime = table.Column<int>(type: "int", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    SpecialtyId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Specialties_SpecialtyId",
+                        column: x => x.SpecialtyId,
+                        principalTable: "Specialties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subspecialties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecialtyId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subspecialties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subspecialties_Specialties_SpecialtyId",
+                        column: x => x.SpecialtyId,
+                        principalTable: "Specialties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -450,27 +492,6 @@ namespace Vezeeta.Context.Migrations
                         name: "FK_Reviews_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Specialties",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecialtyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Specialties", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Specialties_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -571,30 +592,28 @@ namespace Vezeeta.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subspecialties",
+                name: "DoctorSubSpecialties",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecialtyId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorId = table.Column<int>(type: "int", nullable: true),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    SubSpecialtiesId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subspecialties", x => x.Id);
+                    table.PrimaryKey("PK_DoctorSubSpecialties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Subspecialties_Doctors_DoctorId",
+                        name: "FK_DoctorSubSpecialties_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Subspecialties_Specialties_SpecialtyId",
-                        column: x => x.SpecialtyId,
-                        principalTable: "Specialties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_DoctorSubSpecialties_Subspecialties_SubSpecialtiesId",
+                        column: x => x.SubSpecialtiesId,
+                        principalTable: "Subspecialties",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -721,6 +740,21 @@ namespace Vezeeta.Context.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Doctors_SpecialtyId",
+                table: "Doctors",
+                column: "SpecialtyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorSubSpecialties_DoctorId",
+                table: "DoctorSubSpecialties",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorSubSpecialties_SubSpecialtiesId",
+                table: "DoctorSubSpecialties",
+                column: "SubSpecialtiesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DoctorTeleAppointments_AppointmentId",
                 table: "DoctorTeleAppointments",
                 column: "AppointmentId");
@@ -764,16 +798,6 @@ namespace Vezeeta.Context.Migrations
                 name: "IX_ServicesImages_ServiceId",
                 table: "ServicesImages",
                 column: "ServiceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Specialties_DoctorId",
-                table: "Specialties",
-                column: "DoctorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subspecialties_DoctorId",
-                table: "Subspecialties",
-                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subspecialties_SpecialtyId",
@@ -874,6 +898,9 @@ namespace Vezeeta.Context.Migrations
                 name: "DoctorAppointments");
 
             migrationBuilder.DropTable(
+                name: "DoctorSubSpecialties");
+
+            migrationBuilder.DropTable(
                 name: "DoctorTeleAppointments");
 
             migrationBuilder.DropTable(
@@ -887,9 +914,6 @@ namespace Vezeeta.Context.Migrations
 
             migrationBuilder.DropTable(
                 name: "ServicesImages");
-
-            migrationBuilder.DropTable(
-                name: "Subspecialties");
 
             migrationBuilder.DropTable(
                 name: "UserServicesAppointment");
@@ -907,7 +931,7 @@ namespace Vezeeta.Context.Migrations
                 name: "WorkingPlaces");
 
             migrationBuilder.DropTable(
-                name: "Specialties");
+                name: "Subspecialties");
 
             migrationBuilder.DropTable(
                 name: "Services");
@@ -926,6 +950,9 @@ namespace Vezeeta.Context.Migrations
 
             migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "Specialties");
         }
     }
 }
