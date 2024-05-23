@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vezeeta.Context;
 
@@ -11,9 +12,11 @@ using Vezeeta.Context;
 namespace Vezeeta.Context.Migrations
 {
     [DbContext(typeof(VezeetaContext))]
-    partial class VezeetaContextModelSnapshot : ModelSnapshot
+    [Migration("20240516222149__init")]
+    partial class _init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -407,45 +410,6 @@ namespace Vezeeta.Context.Migrations
                     b.ToTable("DoctorAppointments");
                 });
 
-            modelBuilder.Entity("Vezeeta.Models.DoctorReviews", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reviews");
-                });
-
             modelBuilder.Entity("Vezeeta.Models.DoctorSubSpecialties", b =>
                 {
                     b.Property<int>("Id")
@@ -559,7 +523,46 @@ namespace Vezeeta.Context.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("Vezeeta.Models.Service", b =>
+            modelBuilder.Entity("Vezeeta.Models.Reviews", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Vezeeta.Models.Services", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1002,29 +1005,6 @@ namespace Vezeeta.Context.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("Vezeeta.Models.DoctorReviews", b =>
-                {
-                    b.HasOne("Vezeeta.Models.Doctor", "Doctor")
-                        .WithMany("Reviews")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vezeeta.Models.Service", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ServiceId");
-
-                    b.HasOne("Vezeeta.Models.ApplicationUser", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Vezeeta.Models.DoctorSubSpecialties", b =>
                 {
                     b.HasOne("Vezeeta.Models.Doctor", "Doctor")
@@ -1093,6 +1073,33 @@ namespace Vezeeta.Context.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Vezeeta.Models.Reviews", b =>
+                {
+                    b.HasOne("Vezeeta.Models.Doctor", "Doctor")
+                        .WithMany("Reviews")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.Services", "Services")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vezeeta.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Services");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Vezeeta.Models.ServicesAppointment", b =>
                 {
                     b.HasOne("Vezeeta.Models.Appointment", "Appointment")
@@ -1101,7 +1108,7 @@ namespace Vezeeta.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vezeeta.Models.Service", "Services")
+                    b.HasOne("Vezeeta.Models.Services", "Services")
                         .WithMany("ServicesAppointments")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1114,7 +1121,7 @@ namespace Vezeeta.Context.Migrations
 
             modelBuilder.Entity("Vezeeta.Models.ServicesImages", b =>
                 {
-                    b.HasOne("Vezeeta.Models.Service", "Services")
+                    b.HasOne("Vezeeta.Models.Services", "Services")
                         .WithMany("ServicesImages")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1169,7 +1176,7 @@ namespace Vezeeta.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vezeeta.Models.Service", "Services")
+                    b.HasOne("Vezeeta.Models.Services", "Services")
                         .WithMany("UserServicesAppointments")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1292,7 +1299,7 @@ namespace Vezeeta.Context.Migrations
                     b.Navigation("Visits");
                 });
 
-            modelBuilder.Entity("Vezeeta.Models.Service", b =>
+            modelBuilder.Entity("Vezeeta.Models.Services", b =>
                 {
                     b.Navigation("Reviews");
 

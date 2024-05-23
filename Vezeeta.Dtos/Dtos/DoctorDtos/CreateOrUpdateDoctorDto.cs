@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +8,9 @@ using Vezeeta.Dtos.Dtos.SubSpecialitiesDtos;
 using Vezeeta.Dtos.Dtos.WorkingPlaceDtos;
 using Vezeeta.Models.DoctorModels;
 
-namespace Vezeeta.Dtos.Dtos.DoctorDto
+namespace Vezeeta.Dtos.Dtos.DoctorDtos
 {
-    public class DoctorDto
+    public class CreateOrUpdateDoctorDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -29,6 +28,7 @@ namespace Vezeeta.Dtos.Dtos.DoctorDto
         public ICollection<AppointmentsDto> AppointmentsDtos { get; set; }
         public ICollection<AppointmentsDto>? TeleAppointmentsDtos { get; set; }
         public ICollection<WorkingPlaceDto> WorkingPlaceDtos { get; set; }
-        public ICollection<SubSpecialitiesDto> SubSpecialitiesDto { get; set; }
+        public ICollection<int> SubSpecialitiesIds { get; set; }
+
     }
 }
